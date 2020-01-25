@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.conuhack.lingoExplore",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.conuhack.lingoExplore"
     }
   }
 }

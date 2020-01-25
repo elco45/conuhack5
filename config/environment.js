@@ -8,7 +8,8 @@ var environments = {
     FIREBASE_MESSAGING_SENDER_ID: '226301604773',
     FIREBASE_APP_ID: '1:226301604773:web:0ac52c829315c138cc2e4c',
     SHUTTERSTOCK_CUSTOMER_ID: '98348-1cfd2-68af7-46bf1-1a184-4e86c',
-    SHUTTERSTOCK_CUSTOMER_SECRET: 'f8fe9-4e945-c14f0-fb16d-1545d-59e86'
+    SHUTTERSTOCK_CUSTOMER_SECRET: 'f8fe9-4e945-c14f0-fb16d-1545d-59e86',
+    SHUTTERSTOCK_TOKEN: 'd0l0VzhwTm5VN2NBRlVYbUtKN21sVTdwdVZLcmxHQ2w6Y3lYYkRNenRrQUVNRmxqZA=='
   },
   production: {
     // Warning: This file still gets included in your native binary and is not a secure way to store secrets if you build for the app stores. Details: https://github.com/expo/expo/issues/83
