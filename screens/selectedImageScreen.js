@@ -58,7 +58,7 @@ export default class SelectedImageScreen extends Component {
       })
       .then(ref => {
         this._toggleModal();
-        navigation.navigate('Gallery');
+        navigation.navigate('Artifacts');
       })
       .catch(err => {
         alert(err);

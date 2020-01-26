@@ -6,7 +6,8 @@ import {
   View,
   Image,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import ObjectDescriptionModal from '../components/objectDescriptionModal';
@@ -14,7 +15,6 @@ import firebase from '../config/firebase';
 import '@firebase/firestore';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Environment from '../config/environment';
-import Base64 from 'Base64';
 import CardFlip from 'react-native-card-flip';
 
 const firestore = new firebase.firestore();
@@ -30,7 +30,7 @@ const dictionary = [
     en: 'Table',
     fr: 'Une Table',
     description:
-      'A piece of furniture with a flat top and one or more legs, providing a level surface on which objects may be placed, and that can be used for such purposes as eating, writing, working, or playing games.'
+      'A piece of furniture with a flat top and one or more legs, providing a level surface on which objects may be placed.'
   },
   {
     en: 'Chair',
@@ -48,6 +48,28 @@ const dictionary = [
     en: 'Floor',
     fr: 'Le Plancher',
     description: 'The lower surface of a room, on which one may walk.'
+  },
+  {
+    en: 'Cellphone',
+    fr: 'Téléphone Portable',
+    description:
+      'A phone with access to a cellular radio system so it can be used over a wide area, without a physical connection to a network.'
+  },
+  {
+    en: 'Pencil',
+    fr: 'Un Crayon',
+    description:
+      'An instrument for writing or drawing, consisting of a thin stick of graphite or a similar substance enclosed in a long thin piece of wood or fixed in a metal or plastic case.'
+  },
+  {
+    en: 'Watch',
+    fr: 'Un Montre',
+    description: "A small timepiece worn typically on a strap on one's wrist."
+  },
+  {
+    en: 'Mouse',
+    fr: 'La Souris',
+    description: "A small handheld device that is dragged across a flat surface to move the cursor on a computer screen."
   }
 ];
 
@@ -58,14 +80,14 @@ export default class GalleryScreen extends Component {
     currentUser: firebase.auth().currentUser,
     pictures: [],
     word: {},
-    imgPreviewUrl: ''
+    imgPreviewUrl: '',
+    pic: {}
   };
 
   async componentDidMount() {
     this._isMounted = true;
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
     await Permissions.askAsync(Permissions.CAMERA);
-    await Permissions.askAsync(Permissions.AUDIO_RECORDING);
 
     this.selectRandomWord();
     this.getPictures();
@@ -115,6 +137,12 @@ export default class GalleryScreen extends Component {
             pictures.push({ id: collection.id, ...collection.data() });
           });
           if (this._isMounted) {
+            pictures.forEach(picture => {
+              const dictionaryInfo = this.getWordInfo(picture.word);
+              picture.description = dictionaryInfo.description;
+              picture.wordEn = dictionaryInfo.en;
+            });
+
             this.setState({
               pictures
             });
@@ -128,8 +156,13 @@ export default class GalleryScreen extends Component {
     this.setState({ showModal: !showModal });
   };
 
+  getWordInfo = word => {
+    const tmp = dictionary.find(({ fr }) => fr === word);
+    return tmp;
+  };
+
   render() {
-    const { showModal, pictures, word, imgPreviewUrl } = this.state;
+    const { showModal, pictures, word, imgPreviewUrl, pic } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.helpContainer}>
@@ -150,22 +183,116 @@ export default class GalleryScreen extends Component {
               <CardFlip
                 key={picture.id}
                 style={styles.pictureWrapper}
-                ref={card => (this.card = card)}
+                ref={card => (pic[picture.id] = card)}
+                flipDirection={Math.random() > 0.5 ? 'x' : 'y'}
               >
                 <TouchableOpacity
                   style={{ height: '100%', width: '100%' }}
-                  onPress={() => this.card.flip()}
+                  onPress={() => pic[picture.id].flip()}
                 >
                   <Image
                     source={{ uri: picture.imgUrl }}
                     style={{ height: '100%', width: '100%' }}
                   />
+                  <View>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        bottom: 0,
+                        position: 'absolute',
+                        right: 0,
+                        marginRight: 20,
+                        marginBottom: 20
+                      }}
+                    >
+                      <TouchableOpacity
+                        style={{ marginLeft: 10 }}
+                        onPress={() =>
+                          Alert.alert(
+                            'Likes',
+                            'Max, Angela, Karl, ... liked this artifact.',
+                            [
+                              {
+                                text: 'OK'
+                              }
+                            ],
+                            { cancelable: false }
+                          )
+                        }
+                      >
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                          <MaterialCommunityIcons
+                            style={{ color: 'red' }}
+                            name="heart"
+                            size={20}
+                          />
+                          <Text>{Math.floor(Math.random() * 100 + 1)}</Text>
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={{ marginLeft: 10 }}
+                        onPress={() =>
+                          Alert.alert(
+                            'Comments',
+                            'Max:\nThis awesome!\n\nAngela:\nI love it!!!\n\nKarl:\nhahahahaha',
+                            [
+                              {
+                                text: 'OK'
+                              }
+                            ],
+                            { cancelable: false }
+                          )
+                        }
+                      >
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                          <MaterialCommunityIcons
+                            style={{ color: 'blue' }}
+                            name="comment"
+                            size={20}
+                          />
+                          <Text>{Math.floor(Math.random() * 30 + 1)}</Text>
+                        </View>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        style={{ marginLeft: 10 }}
+                        onPress={() =>
+                          Alert.alert(
+                            'Challenge',
+                            'Challenge your friends to find this artifact.',
+                            [
+                              {
+                                text: 'Go'
+                              }
+                            ],
+                            { cancelable: false }
+                          )
+                        }
+                      >
+                        <MaterialCommunityIcons name="sword-cross" size={20} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{ height: '100%', width: '100%' }}
-                  onPress={() => this.card.flip()}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    backgroundColor: 'lightgrey'
+                  }}
+                  onPress={() => pic[picture.id].flip()}
                 >
-                  <Text style={{ textAlign: 'center' }}>{picture.word}</Text>
+                  <Text
+                    style={{
+                      marginTop: 12,
+                      textAlign: 'center',
+                      fontWeight: 'bold'
+                    }}
+                  >{`${picture.word} - (${picture.wordEn})`}</Text>
+                  <Text
+                    style={{ marginTop: 12, textAlign: 'center' }}
+                  >{`${picture.description}`}</Text>
                 </TouchableOpacity>
               </CardFlip>
             ))}

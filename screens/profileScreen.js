@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import * as firebase from "firebase";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import ProfilePhoto from "../components/profile/profilePhoto";
 
@@ -36,6 +36,10 @@ const ProfileScreen = props => {
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <MaterialIcons name="account-box" size={32} color="black" />
             <Text style={{ marginLeft: 5 }}>{currentUser.displayName}</Text>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <MaterialCommunityIcons name="star" size={32} color="black" />
+            <Text style={{ marginLeft: 5 }}>63 XP</Text>
           </View>
         </View>
       </View>

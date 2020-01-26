@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 
 const QuestionsScreen = props => {
@@ -30,11 +31,22 @@ const QuestionsScreen = props => {
       setIncorrectValues(temp);
     }
     if (questionNumber + 1 === pictures.length) {
-      props.navigation.navigate('Gallery');
+      Alert.alert(
+        'Results',
+        `Correct values: ${correctValues.length}\nWrong values: ${incorrectValues.length}`,
+        [
+          {
+            text: 'OK'
+          }
+        ],
+        { cancelable: false }
+      );
+      props.navigation.navigate('Artifacts');
+    } else {
+      const tmp = shuffleArray(Array.from(Array(pictures.length).keys()));
+      setOptions(tmp);
+      setQuestionNumber(questionNumber + 1);
     }
-    const tmp = shuffleArray(Array.from(Array(pictures.length).keys()));
-    setOptions(tmp);
-    setQuestionNumber(questionNumber + 1);
   };
 
   const shuffleArray = arr => {
@@ -54,18 +66,20 @@ const QuestionsScreen = props => {
           justifyContent: 'center'
         }}
       >
-        <View key={pictures[questionNumber].id} style={styles.pictureWrapper}>
-          <Image
-            source={{ uri: pictures[questionNumber].imgUrl }}
-            style={{
-              height: '100%',
-              width: '100%',
-              marginBottom: 40,
-              borderBottomWidth: 1,
-              borderColor: 'black'
-            }}
-          />
-        </View>
+        {pictures[questionNumber] && (
+          <View key={pictures[questionNumber].id} style={styles.pictureWrapper}>
+            <Image
+              source={{ uri: pictures[questionNumber].imgUrl }}
+              style={{
+                height: '100%',
+                width: '100%',
+                marginBottom: 40,
+                borderBottomWidth: 1,
+                borderColor: 'black'
+              }}
+            />
+          </View>
+        )}
         {options.map(option => (
           <TouchableOpacity
             style={styles.buttonText}

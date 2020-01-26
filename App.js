@@ -4,10 +4,11 @@ import { YellowBox } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import GalleryScreen from './screens/galleryScreen';
 import LoginScreen from './screens/loginScreen';
+import RankingScreen from './screens/rankingScreen';
 import SelectedImageScreen from './screens/selectedImageScreen';
 import SignupScreen from './screens/signupScreen';
 import ProfileScreen from './screens/profileScreen';
@@ -42,11 +43,16 @@ const App = props => {
 
   const SignedIn = createBottomTabNavigator(
     {
-      Gallery: {
+      Artifacts: {
         screen: GalleryScreen,
         navigationOptions: {
           tabBarIcon: ({ tintColor }) => (
-            <MaterialIcons name="explore" size={20} color={tintColor} />
+            <MaterialIcons
+              name="explore"
+              size={20}
+              color={tintColor}
+              style={{ marginBottom: 20 }}
+            />
           )
         }
       },
@@ -54,7 +60,25 @@ const App = props => {
         screen: QuestionsLevelsScreen,
         navigationOptions: {
           tabBarIcon: ({ tintColor }) => (
-            <MaterialIcons name="question-answer" size={20} color={tintColor} />
+            <MaterialIcons
+              name="question-answer"
+              size={20}
+              color={tintColor}
+              style={{ marginBottom: 20 }}
+            />
+          )
+        }
+      },
+      Ranking: {
+        screen: RankingScreen,
+        navigationOptions: {
+          tabBarIcon: ({ tintColor }) => (
+            <MaterialCommunityIcons
+              name="medal"
+              size={20}
+              color={tintColor}
+              style={{ marginBottom: 20 }}
+            />
           )
         }
       },
@@ -62,7 +86,12 @@ const App = props => {
         screen: ProfileScreen,
         navigationOptions: {
           tabBarIcon: ({ tintColor }) => (
-            <MaterialIcons name="account-box" size={20} color={tintColor} />
+            <MaterialIcons
+              name="account-box"
+              size={20}
+              color={tintColor}
+              style={{ marginBottom: 20 }}
+            />
           )
         }
       }

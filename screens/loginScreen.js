@@ -17,7 +17,7 @@ const LoginScreen = props => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => props.navigation.navigate("Gallery"))
+      .then(() => props.navigation.navigate("Artifacts"))
       .catch(function(error) {
         // Handle Errors here.
         const errorCode = error.code;
