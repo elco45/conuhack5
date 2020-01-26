@@ -50,12 +50,6 @@ const dictionary = [
     description: 'The lower surface of a room, on which one may walk.'
   },
   {
-    en: 'Cellphone',
-    fr: 'Téléphone Portable',
-    description:
-      'A phone with access to a cellular radio system so it can be used over a wide area, without a physical connection to a network.'
-  },
-  {
     en: 'Pencil',
     fr: 'Un Crayon',
     description:
